@@ -3,53 +3,127 @@
 #include <sstream>
 #include <iomanip>
 using namespace std;
-class FitnessProgram {
+
+class FitnessGoal {
 public:
-    void suggestDiet(const string& goal, const string& gender, const string& dietType) const {
-        cout << "\n--- Suggested Diet Plan for " << gender << " (" << dietType << ") (Goal: " << goal << ") ---\n";
-        if (goal == "gain") {
-            if (dietType == "non-veg") {
-                cout << "1. Breakfast: Paneer paratha with curd (Approx. 650 calories)\n";
-                cout << "2. Lunch: Chicken curry with rice and salad (Approx. 750 calories)\n";
-                cout << "3. Dinner: Fish fry with dal and roti (Approx. 850 calories)\n";
-            } else { // veg
-                cout << "1. Breakfast: Poha with peanuts and a glass of milk (Approx. 500 calories)\n";
-                cout << "2. Lunch: Chole with rice and salad (Approx. 600 calories)\n";
-                cout << "3. Dinner: Mixed vegetable curry with roti (Approx. 650 calories)\n";
-            }
-            cout << "Total Daily Caloric Intake: Approx. 2500 calories\n";
-        } else if (goal == "lose") {
-            if (dietType == "non-veg") {
-                cout << "1. Breakfast: Oats with boiled egg (Approx. 350 calories)\n";
-                cout << "2. Lunch: Grilled chicken salad with lemon dressing (Approx. 450 calories)\n";
-                cout << "3. Dinner: Grilled fish with steamed vegetables (Approx. 550 calories)\n";
-            } else { // veg
-                cout << "1. Breakfast: Smoothie with spinach, banana, and almond milk (Approx. 300 calories)\n";
-                cout << "2. Lunch: Lentil salad with a side of vegetables (Approx. 350 calories)\n";
-                cout << "3. Dinner: Vegetable soup with whole grain toast (Approx. 400 calories)\n";
-            }
-            cout << "Total Daily Caloric Intake: Approx. 1400 calories\n";
-        } else {
-            cout << "Balanced diet recommended.\n";
-        }
+    virtual void suggestDiet(const string& gender) const = 0;
+    virtual void suggestExercise(const string& gender) const = 0;
+};
+
+class GainProgram : public FitnessGoal {
+public:
+    void suggestDiet(const string& gender) const override {
+        cout << "\n--- Suggested Diet Plan for " << gender << " (Goal: Gain) ---\n";
+        cout << "1. Breakfast: Paneer paratha with curd (Approx. 650 calories)\n";
+        cout << "   or: Egg bhurji with toast (Approx. 700 calories)\n";
+        cout << "2. Lunch: Chicken curry with rice and salad (Approx. 750 calories)\n";
+        cout << "   or: Rajma with rice and cucumber salad (Approx. 650 calories)\n";
+        cout << "3. Dinner: Fish fry with dal and roti (Approx. 850 calories)\n";
+        cout << "   or: Palak paneer with roti and raita (Approx. 750 calories)\n";
+        cout << "Total Daily Caloric Intake: Approx. 2500 calories\n";
         cout << "----------------------------------" << endl;
     }
 
-    void suggestExercise(const string& goal, const string& gender) const {
-        cout << "\n--- suggested xxercises for " << gender << " (goal: " << goal << ") ---\n";
-        if (goal == "lose") {
-            cout << "1.cardio:30-45 minutes (5 times a week).\n";
-            cout << (gender == "male" ? "2. strength training: 3 times a week.\n" : "2. pilates or yoga: 3 times a week.\n");
-        } else if (goal == "gain") {
-            cout << "1. weight training: upper body and lower body (4 times a week).\n";
-            cout << "2. core workouts: 3 times a week.\n";
-        } else {
-            cout << "1. Yyoga: 3-4 times a week.\n";
-            cout << "2. walking: 30-60 minutes daily.\n";
-        }
+    void suggestExercise(const string& gender) const override {
+        cout << "\n--- Suggested Exercises for " << gender << " (Goal: Gain) ---\n";
+        cout << "1. Weight training: Upper body and lower body (4 times a week).\n";
+        cout << "   - Squats: 4 sets of 8-12 reps\n";
+        cout << "   - Bench Press: 4 sets of 8-12 reps\n";
+        cout << "   - Deadlifts: 4 sets of 8-12 reps\n";
+        cout << "   - Shoulder Press: 3 sets of 8-12 reps\n";
+        cout << "2. Core workouts: 3 times a week.\n";
+        cout << "   - Plank: 3 sets of 30-60 seconds\n";
+        cout << "   - Bicycle Crunches: 3 sets of 15-20 reps\n";
+        cout << "   - Russian Twists: 3 sets of 15-20 reps\n";
         cout << "----------------------------------" << endl;
     }
 };
+
+class LoseProgram : public FitnessGoal {
+public:
+    void suggestDiet(const string& gender) const override {
+        cout << "\n--- Suggested Diet Plan for " << gender << " (Goal: Lose) ---\n";
+        cout << "1. Breakfast: Oats with boiled egg (Approx. 350 calories)\n";
+        cout << "   or: Vegetable upma with a side of fruits (Approx. 300 calories)\n";
+        cout << "2. Lunch: Grilled chicken salad with lemon dressing (Approx. 450 calories)\n";
+        cout << "   or: Quinoa salad with chickpeas and mixed vegetables (Approx. 400 calories)\n";
+        cout << "3. Dinner: Grilled fish with steamed vegetables (Approx. 550 calories)\n";
+        cout << "   or: Vegetable soup with whole grain toast (Approx. 400 calories)\n";
+        cout << "Total Daily Caloric Intake: Approx. 1400 calories\n";
+        cout << "----------------------------------" << endl;
+    }
+
+    void suggestExercise(const string& gender) const override {
+        cout << "\n--- Suggested Exercises for " << gender << " (Goal: Lose) ---\n";
+        cout << "1. Cardio: 30-45 minutes (5 times a week).\n";
+        cout << "   - Running, cycling, or swimming at a moderate pace.\n";
+        cout << "2. Strength training: 3 times a week.\n";
+        cout << "   - Bodyweight exercises (push-ups, squats, lunges).\n";
+        cout << "   - Use of resistance bands or light weights.\n";
+        cout << "----------------------------------" << endl;
+    }
+};
+
+class MaintainProgram : public FitnessGoal {
+public:
+    void suggestDiet(const string& gender) const override {
+        cout << "\n--- Suggested Diet Plan for " << gender << " (Goal: Maintain) ---\n";
+        cout << "1. Breakfast: Poha with peanuts and a glass of milk (Approx. 500 calories)\n";
+        cout << "   or: Idli with sambhar and coconut chutney (Approx. 450 calories)\n";
+        cout << "2. Lunch: Chole with rice and salad (Approx. 600 calories)\n";
+        cout << "   or: Mixed vegetable curry with roti (Approx. 550 calories)\n";
+        cout << "3. Dinner: Mixed dal with quinoa and steamed vegetables (Approx. 600 calories)\n";
+        cout << "   or: Grilled paneer with sautéed spinach (Approx. 500 calories)\n";
+        cout << "Total Daily Caloric Intake: Approx. 2000 calories (adjust as needed)\n";
+        cout << "----------------------------------" << endl;
+    }
+
+    void suggestExercise(const string& gender) const override {
+        cout << "\n--- Suggested Exercises for " << gender << " (Goal: Maintain) ---\n";
+        cout << "1. Yoga: 3-4 times a week.\n";
+        cout << "   - Focus on flexibility and balance.\n";
+        cout << "2. Walking: 30-60 minutes daily.\n";
+        cout << "   - Incorporate brisk walking or light jogging.\n";
+        cout << "3. Full-body workouts: 2-3 times a week.\n";
+        cout << "   - Include exercises like:\n";
+        cout << "     - Push-ups: 3 sets of 10-15 reps\n";
+        cout << "     - Bodyweight squats: 3 sets of 10-15 reps\n";
+        cout << "     - Plank: 3 sets of 30-60 seconds\n";
+        cout << "----------------------------------" << endl;
+    }
+};
+
+class FitnessProgram {
+public:
+    void suggestDiet(const string& goal, const string& gender) const {
+        FitnessGoal* fitnessGoal;
+        if (goal == "gain") {
+            fitnessGoal = new GainProgram();
+        } else if (goal == "lose") {
+            fitnessGoal = new LoseProgram();
+        } else {
+            fitnessGoal = new MaintainProgram();
+        }
+
+        fitnessGoal->suggestDiet(gender);
+        delete fitnessGoal;  // Clean up memory
+    }
+
+    void suggestExercise(const string& goal, const string& gender) const {
+        FitnessGoal* fitnessGoal;
+        if (goal == "gain") {
+            fitnessGoal = new GainProgram();
+        } else if (goal == "lose") {
+            fitnessGoal = new LoseProgram();
+        } else {
+            fitnessGoal = new MaintainProgram();
+        }
+
+        fitnessGoal->suggestExercise(gender);
+        delete fitnessGoal;  // Clean up memory
+    }
+};
+
 class Person {
 protected:
     string name;
@@ -72,6 +146,7 @@ public:
         cin >> gender;
     }
 };
+
 class Member : public Person {
 private:
     int id;
@@ -89,7 +164,7 @@ public:
 
         calculateBMI();
 
-        cout << "enter registration date (YYYY-MM-DD): ";
+        cout << "Enter registration date (YYYY-MM-DD): ";
         string date;
         cin.ignore();
         getline(cin, date);
@@ -122,12 +197,8 @@ public:
         string userGoal;
         cin >> userGoal;
 
-        cout << "Are you vegetarian or non-vegetarian? (Enter 'veg' or 'non-veg'): ";
-        string dietType;
-        cin >> dietType;
-
         FitnessProgram fitness;
-        fitness.suggestDiet(userGoal, gender, dietType);
+        fitness.suggestDiet(userGoal, gender);
         fitness.suggestExercise(userGoal, gender);
     }
 
@@ -253,4 +324,5 @@ int main() {
 
     return 0;
 }
+
 
